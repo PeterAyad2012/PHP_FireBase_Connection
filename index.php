@@ -1,5 +1,7 @@
-<?php session_start()?>
-<?php include('handledata.php');?>
+<?php 
+    session_start();
+    include('getdata.php');
+?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -65,10 +67,9 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>first</th>
-                                        <th>last</th>
-                                        <th>mail</th>
-                                        <th>phone</th>
+                                        <th>User ID</th>
+                                        <th>Reserved</th>
+                                        <th>Confirmed</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -76,7 +77,7 @@
                                 <tbody>
                                     <?php
                                         include('dbconf.php');
-                                        $table = 'Contacts';
+                                        $table = 'party1';
                                         $fetchdata = $database->getReference($table)->getValue();
                                         
                                         if($fetchdata > 0){
@@ -84,12 +85,11 @@
                                             foreach($fetchdata as $dkey => $drow){
                                                 ?>
                                                     <tr>
-                                                        <td><?=$i++;?></td>
-                                                        <td><?=$drow['f'];?></td>
-                                                        <td><?=$drow['l'];?></td>
-                                                        <td><?=$drow['m']?></td>
-                                                        <td><?=$drow['p']?></td>
-                                                        <td><a href='edit-contact.php?id=<?=$dkey;?>' class='btn btn-primary btn-sm'>Edit</a></td>
+                                                        <td><?=$dkey;?></td>
+                                                        <td><?=$drow['user_id'];?></td>
+                                                        <td><?=$drow['reserved'];?></td>
+                                                        <td><?=$drow['confirmed'];?></td>
+                                                        <td><a href='edit-contact.php?id=<?=$drow['user_id'];?>&party=<?=$table;?>' class='btn btn-primary btn-sm'>Edit</a></td>
                                                         <td><a href='delete-contact.php?id=<?=$dkey;?>' class='btn btn-danger btn-sm'>Delete</a></td>
                                                     </tr>
                                                 <?php
@@ -97,7 +97,7 @@
                                         }else{      
                                             ?>
                                                 <tr>
-                                                    <td colspan="7">NO Records</td>
+                                                    <td colspan="6">NO Records</td>
                                                 </tr>
                                             <?php
                                         }
@@ -114,6 +114,10 @@
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-        <script>var res = get_reserved(1); console.log(res)</script>
+        <script>
+            <?php $party_id = 'party1'; ?>
+            var res = <?=get_reserved($party_id);?>; 
+            console.log(res);
+        </script>
     </body>
 </html>

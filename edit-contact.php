@@ -57,25 +57,23 @@
                              <?php
                                 if(isset($_GET['id'])){
                                     $target_id = $_GET['id'];
+                                    $target_party = $_GET['party'];
                                     include('dbconf.php');
-                                    $table = 'Contacts';
+                                    $table = $target_party;
                                     $fetchdata = $database->getReference($table)->getChild($target_id)->getValue();
-                                    if ($fetchdata > 0){
+                                    if ($fetchdata >= 0){
                                         ?>
-                                            <form action="code.php" method="post">
-                                                <input type="hidden" name="contact_key" value="<?=$target_id;?>"/>
+                                            <form action="reserve.php" method="post">
+                                                <input type="hidden" name="user_id" value="<?=$target_id;?>"/>
+                                                <input type="hidden" name="party_id" value="<?=$target_party;?>"/>
                                                 <div class="form-group mb-3">
                                                     <label>First Name</label>
-                                                    <input type="text" name='first' class="form-control" value="<?=$fetchdata['f'];?>"/>
-
-                                                    <label>Last Name</label>
-                                                    <input type="text" name='last' class="form-control" value="<?=$fetchdata['l'];?>"/>
-
-                                                    <label>Mail</label>
-                                                    <input type="email" name='email' class="form-control" value="<?=$fetchdata['m'];?>"/>
-
-                                                    <label>phone</label>
-                                                    <input type="number" name='phone' class="form-control" value="<?=$fetchdata['p'];?>"/>
+                                                    <label>What service are you enquiring about?</label><br>
+                                                    <input type="checkbox" value="G01H" name="seats[]">G01H<br>
+                                                    <input type="checkbox" value="G01P" name="seats[]">G01P<br>
+                                                    <input type="checkbox" value="G01L" name="seats[]">G01L<br>
+                                                    <input type="checkbox" value="G01R" name="seats[]">G01R<br>
+                                                    <input type="checkbox" value="G02B" name="seats[]">G02B<br>
                                                 </div>
                                                 <div class="form-group mb-3">
                                                     <button type="submit" name="update" class='btn btn-primary'>Save</button>
